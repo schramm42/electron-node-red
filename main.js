@@ -9,8 +9,8 @@ const url = "/admin";
 // url for the editor page
 const urledit = "/admin";
 // tcp port to use
-//const listenPort = "18880"; // fix it just because
-const listenPort = parseInt(Math.random()*16383+49152) // or random ephemeral port
+const listenPort = "80"; // fix it just because
+//const listenPort = parseInt(Math.random()*16383+49152) // or random ephemeral port
 
 const os = require('os');
 const electron = require('electron');
