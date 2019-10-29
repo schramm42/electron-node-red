@@ -1,6 +1,6 @@
 {
     "name": "electron-node-red-pack",
-    "version": "0.17.5",
+    "version": "1.0.2",
     "description": "Electron Node-RED application starter",
     "author": "zuhito",
     "main": "main.js",
