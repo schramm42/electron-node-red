@@ -57,7 +57,8 @@ var settings = {
     httpNodeRoot: "/",
     userDir: userdir,
     flowFile: flowfile,
-    functionGlobalContext: { }    // enables global context
+    functionGlobalContext: { },    // enables global context
+    editorTheme: { projects: { enabled: true } }
 };
 
 // Initialise the runtime with a server and settings
