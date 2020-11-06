@@ -13,10 +13,11 @@ const listenPort = "1880"; // fix it just because
 //const listenPort = parseInt(Math.random()*16383+49152) // or random ephemeral port
 
 const os = require('os');
+const path = require('path');
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const {Menu, MenuItem} = electron;
+const {Menu, MenuItem, Tray} = electron;
 
 // this should be placed at top of main.js to handle squirrel setup events quickly
 if (handleSquirrelEvent()) { return; }
@@ -132,8 +133,41 @@ var template = [{
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let mainTray;
+
+function registerTrayIcon() {
+    const platform = os.platform();
+    const imageFolder = global.__static ? global.__static : path.join('static');
+    let trayImage;
+  
+    // Determine appropriate icon for platforms
+    if (platform === 'darwin' || platform === 'linux') {
+      trayImage = path.join(imageFolder, '/icon.png');
+    } else if (platform === 'win32') {
+      trayImage = path.join(imageFolder, '/icon.ico');
+    }
+  
+    mainTray = new Tray(trayImage);
+    mainTray.setToolTip('Node-RED');
+    mainTray.on('click', () => {
+      mainWindow.show();
+    });
+  }
 
 function createWindow() {
+    registerTrayIcon();
+    /*
+    tray = new Tray();
+    const contextMenu = Menu.buildFromTemplate([
+        { label: 'Item1', type: 'radio' },
+        { label: 'Item2', type: 'radio' },
+        { label: 'Item3', type: 'radio', checked: true },
+        { label: 'Item4', type: 'radio' }
+    ]);
+    tray.setToolTip('This is my application.');
+    tray.setContextMenu(contextMenu);
+    */
+
     // Create the browser window.
     mainWindow = new BrowserWindow({
         autoHideMenuBar: true,
@@ -190,6 +224,7 @@ app.on('window-all-closed', function () {
     //if (process.platform !== 'darwin') {
     //    app.quit();
     //}
+    app.quit();
 });
 
 app.on('activate', function() {
